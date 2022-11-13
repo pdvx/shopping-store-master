@@ -13,8 +13,8 @@ function AppShop() {
       await fetch("http://localhost:8765/products").then((response) => response.json())
       .then((response) => {
         setLoading(false);
-        setData(response)
-        setFilter(response);
+        setData(response.products)
+        setFilter(response.products);
       });
     };
     getProducts();
@@ -27,7 +27,7 @@ function AppShop() {
   };
 
   const filterProduct = (cat) => {
-    const updatedList = data.filter((x) => x.category === cat);
+    const updatedList = data?.filter((x) => x?.category === cat);
     setFilter(updatedList);
   };
 
@@ -68,21 +68,21 @@ function AppShop() {
             </button>
           </div>
           <Row gutter={[24, 24]}>
-            {filter.map((product) => {
+            {filter?.map((product) => {
               return (
                 <Col
                   xs={{ span: 24 }}
                   sm={{ span: 12 }}
                   lg={{ span: 6 }}
-                  key={product.id}
+                  key={product?.id}
                 >
                   <div className="content">
                     <div className="image">
-                      <img src={product.image} alt="product"/>
+                      <img src={product?.image} alt="product"/>
                     </div>
-                    <h3>{product.title}</h3>
-                    <div className="price">${product.price}</div>
-                    <NavLink to={`/demo/react/antdesign/grocery/shop/${product.id}`}><Button type="primary">Buy now</Button></NavLink>
+                    <h3>{product?.title}</h3>
+                    <div className="price">${product?.price}</div>
+                    <NavLink to={`/demo/react/antdesign/grocery/shop/${product?.id}`}><Button type="primary">Buy now</Button></NavLink>
                   </div>
                 </Col>
               );
