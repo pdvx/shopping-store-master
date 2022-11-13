@@ -15,8 +15,8 @@ function RecentProducts() {
       await fetch("http://localhost:8765/products?limit=4").then((response) => response.json())
       .then((response) => {
         setLoading(false);
-        setData(response)
-        setFilter(response);
+        setData(response.products)
+        setFilter(response.products);
       });
       // if (componentMounted) {
       //   setData(await response.clone().json());
@@ -42,7 +42,7 @@ function RecentProducts() {
             <h2>Lastest products</h2>
           </div>
           <Row gutter={[24, 24]}>
-            {filter.map((product) => {
+            {filter?.map((product) => {
               return (
                 <Col
                   xs={{ span: 24 }}

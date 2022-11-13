@@ -15,7 +15,7 @@
 
 .shopPage .buttons {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   margin-bottom: 40px;
   gap: 20px;
 } 
@@ -25,7 +25,7 @@
 }
 
 .shopPage h3, .price, .ant-btn-primary {
-  margin: 20px 0;
+  /* margin: 20px 0; */
 }
 
 .container h1 {
