@@ -19,9 +19,9 @@ const AppSignin = ({ token, setToken }) => {
       },
     }).then((res) => {
       if (res) {
-        console.log(res);
         sessionStorage.setItem("userToken", res.data.token);
         sessionStorage.setItem("userName", e.username);
+        sessionStorage.setItem("userId", res.data.id);
         n("/demo/react/antdesign/grocery/");
       } else {
         setError("Login k thanh cong");

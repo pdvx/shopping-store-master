@@ -14,6 +14,7 @@ import AppContact from './pages/contact';
 import { Layout } from 'antd';
 import { useState } from 'react';
 import AppSignup from './pages/signUp';
+import Cart from './pages/cart';
 
 const { Header, Content, Footer } = Layout;
 
@@ -34,6 +35,7 @@ function App() {
             <Route path='/demo/react/antdesign/grocery/about' element={<AppAbout />} /> 
             <Route path='/demo/react/antdesign/grocery/shop' element={<AppShop />} />
             <Route path='/demo/react/antdesign/grocery/shop/:id' element={<Product/>} />
+            <Route path='/demo/react/antdesign/grocery/cart' element={<Cart/>} />
             <Route path='/demo/react/antdesign/grocery/faq' element={<AppFAQ />} />
             <Route path='/demo/react/antdesign/grocery/contact' element={<AppContact />} />
           </Routes>
