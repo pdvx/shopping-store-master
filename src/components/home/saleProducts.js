@@ -41,7 +41,7 @@ function SaleProducts() {
             <h2>Most saled products</h2>
           </div>
           <Row gutter={[24, 24]}>
-            {filter.map((product) => {
+            {filter?.map((product) => {
               return (
                 <Col
                   xs={{ span: 24 }}
