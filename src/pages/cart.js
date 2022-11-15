@@ -6,11 +6,13 @@ const { Title } = Typography;
 const Cart = () => {
   const urlApi = "http://localhost:8765";
   const [carts, setCarts] = useState([]);
+  const [productCart, setProductCart] = useState({});
   const [loading, setLoading] = useState(false);
   const ORDER_STATUS_CONST = {
     PREPARING: 0,
     IN_PROGRESS: 1,
     DONE: 2,
+    AWAITING: 3,
   };
 
   const CONFIG_ORDER_STATUS = {
@@ -23,21 +25,30 @@ const Cart = () => {
       color: "#5cdbd3",
     },
     [ORDER_STATUS_CONST.DONE]: { message: "Đã gửi", color: "#95de64" },
+    [ORDER_STATUS_CONST.AWAITING]: { message: "Checkout", color: "#95de64" },
+  };
+
+  const getCarts = async () => {
+    setLoading(true);
+    const userId = sessionStorage.getItem("userId");
+    if (userId) {
+      await fetch(`${urlApi}/carts/user/${userId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          setCarts(response);
+          const productCart = {};
+          response.forEach((cart) => {
+            if (cart.status === ORDER_STATUS_CONST.AWAITING) {
+              productCart[cart.id] = cart.products;
+            }
+          });
+          setProductCart(productCart);
+        });
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
-    const getCarts = async () => {
-      setLoading(true);
-      const userId = sessionStorage.getItem("userId");
-      if (userId) {
-        await fetch(`${urlApi}/carts/user/${userId}`)
-          .then((response) => response.json())
-          .then((response) => {
-            setCarts(response);
-          });
-      }
-      setLoading(false);
-    };
     getCarts();
   }, []);
 
@@ -65,31 +76,79 @@ const Cart = () => {
       </>
     );
   };
+  const handleChangeQuantity = async (cartId, productId, quantity) => {
+    const newProductCart = {...productCart};
+    const indexProduct = newProductCart[cartId].findIndex((product) => product._id === productId);
+    newProductCart[cartId][indexProduct].quantity = quantity;
+    setProductCart(newProductCart);
+  }
+
+  const handleClickCheckout = async (cartId) => {
+    const products = productCart[cartId];
+    const requestUpdateCart = {
+      status: ORDER_STATUS_CONST.PREPARING,
+      userId: sessionStorage.getItem("userId"),
+      products: products.filter((product) => product.quantity > 0).map((product) => ({
+        productId: product.product.id,
+        quantity: product.quantity,
+      }))
+    }
+    await fetch(`${urlApi}/carts/${cartId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestUpdateCart),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setCarts(response);
+        getCarts();
+      });
+  };
 
   const ShowCart = () => {
     return (
       <>
-        <div className="container">
+        <div className="container" style={{ marginBottom: "20px" }}>
           <Row gutter={[24, 24]}>
             <Col xs={24} style={{ marginTop: 10 }}>
               <Title level={4}>Total Items: {carts.length}</Title>
             </Col>
-            {carts.map((cart) => {
-              const status = CONFIG_ORDER_STATUS[cart?.status || ORDER_STATUS_CONST.PREPARING]
+            {carts.map((cart, indexCart) => {
+              const status =
+                CONFIG_ORDER_STATUS[
+                  cart?.status || ORDER_STATUS_CONST.PREPARING
+                ];
               return (
-                <Col xs={24} style={{ border: "1px solid #ccc" }}>
-                  <Button type="primary" style={{ background: status.color, borderColor: status.color, marginTop: '10px', float: 'right' }}>{status.message}</Button>
-                  {cart.products.map((product, index) => {
+                <Col
+                  xs={24}
+                  style={{ border: "1px solid #ccc" }}
+                  key={indexCart}
+                  marginBottom="20px"
+                >
+                  {+cart?.status !== +ORDER_STATUS_CONST.AWAITING && (
+                    <Button
+                      type="primary"
+                      style={{
+                        background: status.color,
+                        borderColor: status.color,
+                        marginTop: "10px",
+                        float: "right",
+                      }}
+                    >
+                      {status.message}
+                    </Button>
+                  )}
+                  {cart.products.map((product, indexProduct) => {
                     return (
                       <Col xs={24}>
                         <div
                           style={{
                             display: "flex",
                             padding: "20px 0",
-                            paddingTop: index === 0 ? "0px" : "20px",
+                            paddingTop: indexProduct === 0 ? "0px" : "20px",
                             width: "100%",
                             borderBottom:
-                              index === cart.products.length - 1
+                              indexProduct === cart.products.length - 1
                                 ? "none"
                                 : "1px solid #ccc",
                           }}
@@ -104,7 +163,15 @@ const Cart = () => {
                             <h3 className="">{product.product.title}</h3>
                             <p>
                               {"Quantity: "}
-                              <InputNumber value={product.quantity} disabled />
+                              <InputNumber
+                                value={product.quantity}
+                                min={0}
+                                max={99}
+                                onChange={(value) => handleChangeQuantity(cart.id, product._id, value)}
+                                disabled={
+                                  +cart?.status !== +ORDER_STATUS_CONST.AWAITING
+                                }
+                              />
                             </p>
                             <h3 className="productCost">
                               Price: {product.product.price * product.quantity}{" "}
@@ -115,6 +182,19 @@ const Cart = () => {
                       </Col>
                     );
                   })}
+                  {+cart?.status === +ORDER_STATUS_CONST.AWAITING && (
+                    <Button
+                      type="primary"
+                      style={{
+                        marginTop: "10px",
+                        marginBottom: "10px",
+                        float: "right",
+                      }}
+                      onClick={() => handleClickCheckout(cart?.id)}
+                    >
+                      Checkout
+                    </Button>
+                  )}
                 </Col>
               );
             })}
