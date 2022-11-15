@@ -6,6 +6,7 @@ const { Title } = Typography;
 const Cart = () => {
   const urlApi = "http://localhost:8765";
   const [carts, setCarts] = useState([]);
+  const [productCart, setProductCart] = useState({});
   const [loading, setLoading] = useState(false);
   const ORDER_STATUS_CONST = {
     PREPARING: 0,
@@ -35,6 +36,13 @@ const Cart = () => {
         .then((response) => response.json())
         .then((response) => {
           setCarts(response);
+          const productCart = {};
+          response.forEach((cart) => {
+            if (cart.status === ORDER_STATUS_CONST.AWAITING) {
+              productCart[cart.id] = cart.products;
+            }
+          });
+          setProductCart(productCart);
         });
     }
     setLoading(false);
@@ -68,12 +76,27 @@ const Cart = () => {
       </>
     );
   };
+  const handleChangeQuantity = async (cartId, productId, quantity) => {
+    const newProductCart = {...productCart};
+    const indexProduct = newProductCart[cartId].findIndex((product) => product._id === productId);
+    newProductCart[cartId][indexProduct].quantity = quantity;
+    setProductCart(newProductCart);
+  }
 
   const handleClickCheckout = async (cartId) => {
+    const products = productCart[cartId];
+    const requestUpdateCart = {
+      status: ORDER_STATUS_CONST.PREPARING,
+      userId: sessionStorage.getItem("userId"),
+      products: products.filter((product) => product.quantity > 0).map((product) => ({
+        productId: product.product.id,
+        quantity: product.quantity,
+      }))
+    }
     await fetch(`${urlApi}/carts/${cartId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: ORDER_STATUS_CONST.PREPARING }),
+      body: JSON.stringify(requestUpdateCart),
     })
       .then((response) => response.json())
       .then((response) => {
@@ -90,13 +113,18 @@ const Cart = () => {
             <Col xs={24} style={{ marginTop: 10 }}>
               <Title level={4}>Total Items: {carts.length}</Title>
             </Col>
-            {carts.map((cart, index) => {
+            {carts.map((cart, indexCart) => {
               const status =
                 CONFIG_ORDER_STATUS[
                   cart?.status || ORDER_STATUS_CONST.PREPARING
                 ];
               return (
-                <Col xs={24} style={{ border: "1px solid #ccc" }} key={index}>
+                <Col
+                  xs={24}
+                  style={{ border: "1px solid #ccc" }}
+                  key={indexCart}
+                  marginBottom="20px"
+                >
                   {+cart?.status !== +ORDER_STATUS_CONST.AWAITING && (
                     <Button
                       type="primary"
@@ -110,17 +138,17 @@ const Cart = () => {
                       {status.message}
                     </Button>
                   )}
-                  {cart.products.map((product, index) => {
+                  {cart.products.map((product, indexProduct) => {
                     return (
                       <Col xs={24}>
                         <div
                           style={{
                             display: "flex",
                             padding: "20px 0",
-                            paddingTop: index === 0 ? "0px" : "20px",
+                            paddingTop: indexProduct === 0 ? "0px" : "20px",
                             width: "100%",
                             borderBottom:
-                              index === cart.products.length - 1
+                              indexProduct === cart.products.length - 1
                                 ? "none"
                                 : "1px solid #ccc",
                           }}
@@ -136,7 +164,10 @@ const Cart = () => {
                             <p>
                               {"Quantity: "}
                               <InputNumber
-                                defaultValue={product.quantity}
+                                value={product.quantity}
+                                min={0}
+                                max={99}
+                                onChange={(value) => handleChangeQuantity(cart.id, product._id, value)}
                                 disabled={
                                   +cart?.status !== +ORDER_STATUS_CONST.AWAITING
                                 }
