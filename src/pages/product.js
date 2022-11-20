@@ -64,11 +64,11 @@ const Product = () => {
   }
 
   const addToCart = async () => {
-    const isLogin = sessionStorage.getItem("userToken")
+    const isLogin = sessionStorage.getItem("userToken");
     if (!isLogin) {
-      return navigate('/demo/react/antdesign/grocery/signin');
+      return navigate("/demo/react/antdesign/grocery/signin");
     }
-    const userId = sessionStorage.getItem("userId")
+    const userId = sessionStorage.getItem("userId");
     const data = {
       userId: userId,
       products: [
@@ -84,6 +84,18 @@ const Product = () => {
     } else {
       alert("Error");
     }
+  };
+
+  const onChangeRate = async (value) => {
+    console.log(value);
+    const rateBody = {
+      rate: value,
+    };
+    await fetch(`${urlApi}/products/${product.id}/rating`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(rateBody),
+    }).then((response) => response.json());
   };
 
   const ShowProduct = () => {
@@ -106,13 +118,13 @@ const Product = () => {
                 <h1 className="productCat">{product.category}</h1>
                 <h1 className="productTitle">{product.title}</h1>
                 <p>
-                  Overall rating {product.rating && product.rating.rate}
-                  <StarOutlined />
+                  Overall rating: <b>{product?.rating?.rate || 0}</b>
+                  <StarOutlined style={{ marginLeft: "5px" }} />
                 </p>
                 <h3 className="productPrice">${product.price}</h3>
                 <p>{product.description}</p>
                 <p>
-                  Rate it now <Rate allowHalf />
+                  Rate it now <Rate allowHalf onChange={onChangeRate} />
                 </p>
 
                 <p>
