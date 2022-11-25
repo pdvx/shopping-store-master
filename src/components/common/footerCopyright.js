@@ -3,11 +3,15 @@ import { BackTop } from 'antd';
 import payment from '../../assets/images/payment.png';
 
 function FooterCopyright() {
-  return(
+  return (
     <div className="footerCopyright">
       <div className="container">
-        <div className="copyright">©2022 Created by Thomas Pham. All rights reserved</div>
-        <div className="toTop"><img src={payment} alt="Payment" /></div>
+        <div className="copyright">
+          ©2022 Created by Thomas Pham. All rights reserved
+        </div>
+        <div className="toTop">
+          <img src={payment} alt="Payment" />
+        </div>
       </div>
       <BackTop />
     </div>

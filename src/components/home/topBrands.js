@@ -16,15 +16,15 @@ const products = [
   {
     key: '4',
     image: require('../../assets/images/adidas.jpg'),
-  }
-]
+  },
+];
 
 function TopBrands() {
   return (
     <div className="block products">
       <h2>Top Brands</h2>
       <Row gutter={[24, 24]}>
-        {products.map(product => {
+        {products.map((product) => {
           return (
             <Col xs={{ span: 12 }} sm={{ span: 6 }} key={product.key}>
               <div className="content">

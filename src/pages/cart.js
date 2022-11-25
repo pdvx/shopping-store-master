@@ -1,10 +1,10 @@
-import { Col, Skeleton, Row, InputNumber, Button } from "antd";
-import React, { useState, useEffect } from "react";
-import { Typography } from "antd";
+import { Col, Skeleton, Row, InputNumber, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Typography } from 'antd';
 const { Title } = Typography;
 
 const Cart = () => {
-  const urlApi = "http://localhost:8765";
+  const urlApi = 'http://localhost:8765';
   const [carts, setCarts] = useState([]);
   const [productCart, setProductCart] = useState({});
   const [loading, setLoading] = useState(false);
@@ -17,20 +17,20 @@ const Cart = () => {
 
   const CONFIG_ORDER_STATUS = {
     [ORDER_STATUS_CONST.PREPARING]: {
-      message: "Đang chuẩn bị",
-      color: "primary",
+      message: 'Đang chuẩn bị',
+      color: 'primary',
     },
     [ORDER_STATUS_CONST.IN_PROGRESS]: {
-      message: "Đang trong kho",
-      color: "#5cdbd3",
+      message: 'Đang trong kho',
+      color: '#5cdbd3',
     },
-    [ORDER_STATUS_CONST.DONE]: { message: "Đã gửi", color: "#95de64" },
-    [ORDER_STATUS_CONST.AWAITING]: { message: "Checkout", color: "#95de64" },
+    [ORDER_STATUS_CONST.DONE]: { message: 'Đã gửi', color: '#95de64' },
+    [ORDER_STATUS_CONST.AWAITING]: { message: 'Checkout', color: '#95de64' },
   };
 
   const getCarts = async () => {
     setLoading(true);
-    const userId = sessionStorage.getItem("userId");
+    const userId = sessionStorage.getItem('userId');
     if (userId) {
       await fetch(`${urlApi}/carts/user/${userId}`)
         .then((response) => response.json())
@@ -77,25 +77,29 @@ const Cart = () => {
     );
   };
   const handleChangeQuantity = async (cartId, productId, quantity) => {
-    const newProductCart = {...productCart};
-    const indexProduct = newProductCart[cartId].findIndex((product) => product._id === productId);
+    const newProductCart = { ...productCart };
+    const indexProduct = newProductCart[cartId].findIndex(
+      (product) => product._id === productId
+    );
     newProductCart[cartId][indexProduct].quantity = quantity;
     setProductCart(newProductCart);
-  }
+  };
 
   const handleClickCheckout = async (cartId) => {
     const products = productCart[cartId];
     const requestUpdateCart = {
       status: ORDER_STATUS_CONST.PREPARING,
-      userId: sessionStorage.getItem("userId"),
-      products: products.filter((product) => product.quantity > 0).map((product) => ({
-        productId: product.product.id,
-        quantity: product.quantity,
-      }))
-    }
+      userId: sessionStorage.getItem('userId'),
+      products: products
+        .filter((product) => product.quantity > 0)
+        .map((product) => ({
+          productId: product.product.id,
+          quantity: product.quantity,
+        })),
+    };
     await fetch(`${urlApi}/carts/${cartId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestUpdateCart),
     })
       .then((response) => response.json())
@@ -108,7 +112,7 @@ const Cart = () => {
   const ShowCart = () => {
     return (
       <>
-        <div className="container" style={{ marginBottom: "20px" }}>
+        <div className="container" style={{ marginBottom: '20px' }}>
           <Row gutter={[24, 24]}>
             <Col xs={24} style={{ marginTop: 10 }}>
               <Title level={4}>Total Items: {carts.length}</Title>
@@ -121,7 +125,7 @@ const Cart = () => {
               return (
                 <Col
                   xs={24}
-                  style={{ border: "1px solid #ccc" }}
+                  style={{ border: '1px solid #ccc' }}
                   key={indexCart}
                   marginBottom="20px"
                 >
@@ -131,8 +135,8 @@ const Cart = () => {
                       style={{
                         background: status.color,
                         borderColor: status.color,
-                        marginTop: "10px",
-                        float: "right",
+                        marginTop: '10px',
+                        float: 'right',
                       }}
                     >
                       {status.message}
@@ -143,14 +147,14 @@ const Cart = () => {
                       <Col xs={24}>
                         <div
                           style={{
-                            display: "flex",
-                            padding: "20px 0",
-                            paddingTop: indexProduct === 0 ? "0px" : "20px",
-                            width: "100%",
+                            display: 'flex',
+                            padding: '20px 0',
+                            paddingTop: indexProduct === 0 ? '0px' : '20px',
+                            width: '100%',
                             borderBottom:
                               indexProduct === cart.products.length - 1
-                                ? "none"
-                                : "1px solid #ccc",
+                                ? 'none'
+                                : '1px solid #ccc',
                           }}
                         >
                           <img
@@ -159,22 +163,28 @@ const Cart = () => {
                             height="100px"
                             width="100px"
                           />
-                          <div style={{ margin: "20px" }}>
+                          <div style={{ margin: '20px' }}>
                             <h3 className="">{product.product.title}</h3>
                             <p>
-                              {"Quantity: "}
+                              {'Quantity: '}
                               <InputNumber
                                 value={product.quantity}
                                 min={0}
                                 max={99}
-                                onChange={(value) => handleChangeQuantity(cart.id, product._id, value)}
+                                onChange={(value) =>
+                                  handleChangeQuantity(
+                                    cart.id,
+                                    product._id,
+                                    value
+                                  )
+                                }
                                 disabled={
                                   +cart?.status !== +ORDER_STATUS_CONST.AWAITING
                                 }
                               />
                             </p>
                             <h3 className="productCost">
-                              Price: {product.product.price * product.quantity}{" "}
+                              Price: {product.product.price * product.quantity}{' '}
                               $
                             </h3>
                           </div>
@@ -186,9 +196,9 @@ const Cart = () => {
                     <Button
                       type="primary"
                       style={{
-                        marginTop: "10px",
-                        marginBottom: "10px",
-                        float: "right",
+                        marginTop: '10px',
+                        marginBottom: '10px',
+                        float: 'right',
                       }}
                       onClick={() => handleClickCheckout(cart?.id)}
                     >

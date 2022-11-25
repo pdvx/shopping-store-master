@@ -1,20 +1,20 @@
-import { Col, Row } from "antd";
-import { List, Tag } from "antd";
-import { ArrowRightOutlined } from "@ant-design/icons";
+import { Col, Row } from 'antd';
+import { List, Tag } from 'antd';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 const catagories = [
   "Men's Clothing",
   "Women's Clothing",
-  "Jewelry",
-  "Electronics",
+  'Jewelry',
+  'Electronics',
 ];
 
 const data = [
-  "The most popular trends to expect in 2022.",
-  "What is the biggest change in economical industry?",
-  "How to improve and maintain the industry?",
-  "What was happened to the economy in the pandemic?",
-  "Solutions for marketing and increase sales.",
+  'The most popular trends to expect in 2022.',
+  'What is the biggest change in economical industry?',
+  'How to improve and maintain the industry?',
+  'What was happened to the economy in the pandemic?',
+  'Solutions for marketing and increase sales.',
 ];
 
 function FooterWidget() {
@@ -30,9 +30,11 @@ function FooterWidget() {
               rhoncus dapibus sodales. Praesent ultricies a enim quis suscipit.
               Aenean malesuada orci sed augue ultrices, ac efficitur mauris
               dapibus. Curabitur ex neque, tempus semper dignissim in, viverra
-              quis ante. 
+              quis ante.
             </p>
-            <h1>Read more <ArrowRightOutlined/></h1>
+            <h1>
+              Read more <ArrowRightOutlined />
+            </h1>
           </Col>
           {/* top rated */}
           <Col xs={{ span: 24 }} sm={{ span: 12 }} md={6}>

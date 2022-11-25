@@ -12,7 +12,7 @@ function Information() {
       </div>
       <Row gutter={[24, 24]}>
         <Col xs={{ span: 24 }} lg={{ span: 24 }}>
-        <Carousel autoplay>
+          <Carousel autoplay>
             <div>
               <img src={bgImage1} alt="banner 1" />
             </div>

@@ -1,6 +1,6 @@
-import { Col, Row, Button } from "antd";
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Col, Row, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function SaleProducts() {
   const [data, setData] = useState([]);
@@ -19,12 +19,15 @@ function SaleProducts() {
       //   setFilter(await response.json());
       //   setLoading(false);
       // }
-      await fetch("http://localhost:8765/products/category/women's clothing?limit=3").then((response) => response.json())
-      .then((response) => {
-        // setLoading(false);
-        setData(response)
-        setFilter(response);
-      });
+      await fetch(
+        "http://localhost:8765/products/category/women's clothing?limit=3"
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          // setLoading(false);
+          setData(response);
+          setFilter(response);
+        });
 
       // return () => {
       //   componentMounted = false;

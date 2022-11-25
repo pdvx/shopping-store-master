@@ -1,6 +1,6 @@
-import { Col, Row, Button, Skeleton } from "antd";
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Col, Row, Button, Skeleton } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function RecentProducts() {
   const [data, setData] = useState([]);
@@ -12,12 +12,13 @@ function RecentProducts() {
     const getProducts = async () => {
       setLoading(true);
       // let response;
-      await fetch("http://localhost:8765/products?limit=4").then((response) => response.json())
-      .then((response) => {
-        setLoading(false);
-        setData(response.products)
-        setFilter(response.products);
-      });
+      await fetch('http://localhost:8765/products?limit=4')
+        .then((response) => response.json())
+        .then((response) => {
+          setLoading(false);
+          setData(response.products);
+          setFilter(response.products);
+        });
       // if (componentMounted) {
       //   setData(await response.clone().json());
       //   setFilter(await response.json());

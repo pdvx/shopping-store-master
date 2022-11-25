@@ -1,11 +1,11 @@
-import { Col, Skeleton, Row, Button, Rate, InputNumber } from "antd";
-import { StarOutlined } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Col, Skeleton, Row, Button, Rate, InputNumber } from 'antd';
+import { StarOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Product = () => {
-  const urlApi = "http://localhost:8765";
+  const urlApi = 'http://localhost:8765';
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -46,29 +46,29 @@ const Product = () => {
       </>
     );
   };
-  async function postData(url = "", data = {}) {
+  async function postData(url = '', data = {}) {
     const response = await fetch(url, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
     return response.json(); // parses JSON response into native JavaScript objects
   }
 
   const addToCart = async () => {
-    const isLogin = sessionStorage.getItem("userToken");
+    const isLogin = sessionStorage.getItem('userToken');
     if (!isLogin) {
-      return navigate("/demo/react/antdesign/grocery/signin");
+      return navigate('/demo/react/antdesign/grocery/signin');
     }
-    const userId = sessionStorage.getItem("userId");
+    const userId = sessionStorage.getItem('userId');
     const data = {
       userId: userId,
       products: [
@@ -79,10 +79,10 @@ const Product = () => {
       ],
     };
     const response = await postData(`${urlApi}/carts`, data);
-    if (response.status === "success") {
-      alert("Success");
+    if (response.status === 'success') {
+      alert('Success');
     } else {
-      alert("Error");
+      alert('Error');
     }
   };
 
@@ -92,8 +92,8 @@ const Product = () => {
       rate: value,
     };
     await fetch(`${urlApi}/products/${product.id}/rating`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(rateBody),
     }).then((response) => response.json());
   };
@@ -119,7 +119,7 @@ const Product = () => {
                 <h1 className="productTitle">{product.title}</h1>
                 <p>
                   Overall rating: <b>{product?.rating?.rate || 0}</b>
-                  <StarOutlined style={{ marginLeft: "5px" }} />
+                  <StarOutlined style={{ marginLeft: '5px' }} />
                 </p>
                 <h3 className="productPrice">${product.price}</h3>
                 <p>{product.description}</p>
@@ -128,7 +128,7 @@ const Product = () => {
                 </p>
 
                 <p>
-                  {"Số lượng: "}
+                  {'Số lượng: '}
                   <InputNumber
                     defaultValue="1"
                     min={1}

@@ -7,7 +7,7 @@ import TopBrands from '../components/home/topBrands';
 
 function AppHome() {
   return (
-    <div className='container'>
+    <div className="container">
       <Hero />
       <RecentProducts />
       <Information />

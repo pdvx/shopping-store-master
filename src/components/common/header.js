@@ -1,6 +1,6 @@
-import { NavLink,useNavigate } from "react-router-dom";
-import { Button, Drawer, Dropdown, Menu, Space } from "antd";
-import React, { useState } from "react";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Button, Drawer, Dropdown, Menu, Space } from 'antd';
+import React, { useState } from 'react';
 import {
   MobileOutlined,
   MailOutlined,
@@ -11,7 +11,7 @@ import {
   MenuOutlined,
   ShoppingCartOutlined,
   DownOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 
 function AppHeader() {
   const [visible, setVisible] = useState(false);
@@ -24,16 +24,13 @@ function AppHeader() {
     setVisible(false);
   };
   const navigate = useNavigate();
-  const isLogin = sessionStorage.getItem("userToken")
-const user = sessionStorage.getItem("userName")
-  const handleLogout =  () => {
-    
-    sessionStorage.clear()
+  const isLogin = sessionStorage.getItem('userToken');
+  const user = sessionStorage.getItem('userName');
+  const handleLogout = () => {
+    sessionStorage.clear();
     navigate('/demo/react/antdesign/grocery/signin');
-    console.log('You are logged out')
-    
-    
-};
+    console.log('You are logged out');
+  };
 
   return (
     <div className="container">
@@ -74,31 +71,46 @@ const user = sessionStorage.getItem("userName")
           <Dropdown
             onClick={(e) => e.preventDefault()}
             className="user-btn"
-            overlay={!isLogin?<Menu
-              items={[  
-                {
-                  label: <NavLink to={`/demo/react/antdesign/grocery/signin`}>Sign in</NavLink>,
-                  key: "0",
-                },
-              ]}
-            />:<Menu
-            items={[  
-              {
-                label: <a href="https://www.aliyun.com">{user}</a>,
-                key: "1",
-              },
-              {
-                type: "divider",
-              },
-              {
-                label: <button onClick={handleLogout} className='border px-6 py-2 my-4'>
-                Logout
-              </button>,
-                key: "2",
-              },
-            ]}
-          />}
-            trigger={["click"]}
+            overlay={
+              !isLogin ? (
+                <Menu
+                  items={[
+                    {
+                      label: (
+                        <NavLink to={`/demo/react/antdesign/grocery/signin`}>
+                          Sign in
+                        </NavLink>
+                      ),
+                      key: '0',
+                    },
+                  ]}
+                />
+              ) : (
+                <Menu
+                  items={[
+                    {
+                      label: <a href="https://www.aliyun.com">{user}</a>,
+                      key: '1',
+                    },
+                    {
+                      type: 'divider',
+                    },
+                    {
+                      label: (
+                        <button
+                          onClick={handleLogout}
+                          className="border px-6 py-2 my-4"
+                        >
+                          Logout
+                        </button>
+                      ),
+                      key: '2',
+                    },
+                  ]}
+                />
+              )
+            }
+            trigger={['click']}
           >
             <Space>
               <UserOutlined />

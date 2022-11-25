@@ -4,22 +4,22 @@ const productCategories = [
   {
     key: '1',
     image: require('../../assets/images/img15.jpg'),
-    title: 'Frozen'
+    title: 'Frozen',
   },
   {
     key: '2',
     image: require('../../assets/images/img16.jpg'),
-    title: 'Fresh'
+    title: 'Fresh',
   },
   {
     key: '3',
     image: require('../../assets/images/img19.jpg'),
-    title: 'Drinks'
+    title: 'Drinks',
   },
   {
     key: '4',
     image: require('../../assets/images/img20.jpg'),
-    title: 'Bakery'
+    title: 'Bakery',
   },
   // {
   //   key: '5',
@@ -41,16 +41,21 @@ const productCategories = [
   //   image: require('../../assets/images/img25.jpg'),
   //   title: 'Beers & Wines'
   // }
-]
+];
 
 function ProductCategories() {
   return (
     <div className="block productCategories">
       <h2>Product Categories</h2>
       <Row gutter={[24, 24]}>
-        {productCategories.map(productCategory => {
+        {productCategories.map((productCategory) => {
           return (
-            <Col xs={{ span: 12 }} sm={{ span: 6 }} lg={{ span: 4 }} key={productCategory.key}>
+            <Col
+              xs={{ span: 12 }}
+              sm={{ span: 6 }}
+              lg={{ span: 4 }}
+              key={productCategory.key}
+            >
               <div className="content">
                 <div className="image">
                   <img src={productCategory.image} alt="product" />

@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { Col, Row, Button, Skeleton, Dropdown, Menu, Input } from "antd";
-import { NavLink } from "react-router-dom";
-import { orderBy } from "lodash";
+import React, { useState, useEffect } from 'react';
+import { Col, Row, Button, Skeleton, Dropdown, Menu, Input } from 'antd';
+import { NavLink } from 'react-router-dom';
+import { orderBy } from 'lodash';
 const { Search } = Input;
 const menuSort = [
   {
-    key: "1",
-    label: "Featured",
+    key: '1',
+    label: 'Featured',
   },
   {
-    key: "2",
-    label: "Price: Low to High",
-    field: "price",
-    direction: "asc",
+    key: '2',
+    label: 'Price: Low to High',
+    field: 'price',
+    direction: 'asc',
   },
   {
-    key: "3",
-    label: "Price: High to Low",
-    field: "price",
-    direction: "desc",
+    key: '3',
+    label: 'Price: High to Low',
+    field: 'price',
+    direction: 'desc',
   },
   {
-    key: "4",
-    label: "Rating: Low to High",
-    field: "rating",
-    direction: "asc",
+    key: '4',
+    label: 'Rating: Low to High',
+    field: 'rating',
+    direction: 'asc',
   },
   {
-    key: "5",
-    label: "Rating: Hight to Low",
-    field: "rating",
-    direction: "desc",
+    key: '5',
+    label: 'Rating: Hight to Low',
+    field: 'rating',
+    direction: 'desc',
   },
 ];
 const getFieldAndSortDirection = (key) => {
@@ -44,7 +44,7 @@ function AppShop() {
 
   const getProducts = async () => {
     setLoading(true);
-    await fetch("http://localhost:8765/products")
+    await fetch('http://localhost:8765/products')
       .then((response) => response.json())
       .then((response) => {
         setLoading(false);
@@ -109,13 +109,13 @@ function AppShop() {
             </button>
             <button
               className="btn btn-outline-dark"
-              onClick={() => filterProduct("jewelery")}
+              onClick={() => filterProduct('jewelery')}
             >
               Jewelery
             </button>
             <button
               className="btn btn-outline-dark"
-              onClick={() => filterProduct("electronics")}
+              onClick={() => filterProduct('electronics')}
             >
               Electronic
             </button>
@@ -124,9 +124,9 @@ function AppShop() {
             <h2>Shop</h2>
             <div
               style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "row-reverse",
+                display: 'flex',
+                width: '100%',
+                flexDirection: 'row-reverse',
               }}
             >
               <Search
@@ -136,17 +136,17 @@ function AppShop() {
                 size="medium"
                 onSearch={onSearch}
                 style={{
-                  width: "30%",
-                  paddingTop: "5px",
+                  width: '30%',
+                  paddingTop: '5px',
                 }}
               />
               <Dropdown
                 overlay={sortMenu}
                 placement="bottomLeft"
-                trigger={["click"]}
+                trigger={['click']}
               >
-                <Button style={{ marginRight: "-1px" }}>
-                  {sortBy ? sortBy?.label : "Sort by"}
+                <Button style={{ marginRight: '-1px' }}>
+                  {sortBy ? sortBy?.label : 'Sort by'}
                 </Button>
               </Dropdown>
             </div>
