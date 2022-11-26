@@ -3,6 +3,10 @@ import axios from 'axios';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
+
+import '@firebase/auth';
+import { auth } from '../firebase';
 
 const AppSignin = ({ token, setToken }) => {
   const [userName, setUsername] = useState('');
@@ -29,8 +33,19 @@ const AppSignin = ({ token, setToken }) => {
     });
   };
 
+  const fbLogin = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log('🚀 ~ file: signIn.js ~ line 40 ~ .then ~ result', result);
+      })
+      .catch((error) => {
+        console.log('🚀 ~ file: signIn.js ~ line 43 ~ fbLogin ~ error', error);
+      });
+  };
   return (
     <div style={{ marginTop: '50px' }}>
+      <button onClick={fbLogin}>Login</button>
       <Form
         style={{ width: '70%', margin: '0 auto' }}
         name="normal_login"
