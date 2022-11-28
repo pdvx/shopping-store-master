@@ -65,7 +65,19 @@ const AppSignin = ({ token, setToken }) => {
   };
   return (
     <div style={{ marginTop: '50px' }}>
-      <button onClick={fbLogin}>Login</button>
+      <div className="flex justify-center items-center mb-8">
+        <button
+          onClick={fbLogin}
+          className="shadow-lg rounded px-3 py-2 text-white bg-blue-800 hover:bg-blue-900 flex justify-center items-center transition-all"
+        >
+          <img
+            src="facebook.png"
+            alt="FB"
+            className="h-6 border-2 border-white rounded-full mr-4"
+          />
+          Login by Facebook
+        </button>
+      </div>
       <Form
         style={{ width: '70%', margin: '0 auto' }}
         name="normal_login"

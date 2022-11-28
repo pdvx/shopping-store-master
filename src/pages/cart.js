@@ -1,10 +1,12 @@
 import { Col, Skeleton, Row, InputNumber, Button } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
 const { Title } = Typography;
 
 const Cart = () => {
   const urlApi = 'http://localhost:8765';
+  const navigate = useNavigate();
   const [carts, setCarts] = useState([]);
   const [productCart, setProductCart] = useState({});
   const [loading, setLoading] = useState(false);
@@ -36,6 +38,7 @@ const Cart = () => {
         .then((response) => response.json())
         .then((response) => {
           setCarts(response);
+          console.log('-> response', response);
           const productCart = {};
           response.forEach((cart) => {
             if (cart.status === ORDER_STATUS_CONST.AWAITING) {
@@ -85,7 +88,13 @@ const Cart = () => {
     setProductCart(newProductCart);
   };
 
-  const handleClickCheckout = async (cartId) => {
+  const handleClickCheckout = async (cartId, notCheckouted = true) => {
+    console.log({ cartId });
+    return navigate(
+      `/demo/react/antdesign/checkout?id=${cartId}&success=${
+        notCheckouted ? 0 : 1
+      }`
+    );
     const products = productCart[cartId];
     const requestUpdateCart = {
       status: ORDER_STATUS_CONST.PREPARING,
@@ -130,17 +139,24 @@ const Cart = () => {
                   marginBottom="20px"
                 >
                   {+cart?.status !== +ORDER_STATUS_CONST.AWAITING && (
-                    <Button
-                      type="primary"
-                      style={{
-                        background: status.color,
-                        borderColor: status.color,
-                        marginTop: '10px',
-                        float: 'right',
-                      }}
-                    >
-                      {status.message}
-                    </Button>
+                    <div>
+                      <Button
+                        type="primary"
+                        style={{
+                          background: status.color,
+                          borderColor: status.color,
+                          marginTop: '10px',
+                          float: 'right',
+                        }}
+                      >
+                        {status.message}
+                      </Button>
+                      <Button
+                        onClick={() => handleClickCheckout(cart?.id, false)}
+                      >
+                        View
+                      </Button>
+                    </div>
                   )}
                   {cart.products.map((product, indexProduct) => {
                     return (
