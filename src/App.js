@@ -15,6 +15,7 @@ import { Layout } from 'antd';
 import { useState } from 'react';
 import AppSignup from './pages/signUp';
 import Cart from './pages/cart';
+import Checkout from './pages/checkout';
 
 const { Header, Content, Footer } = Layout;
 
@@ -58,6 +59,10 @@ function App() {
             <Route
               path="/demo/react/antdesign/grocery/cart"
               element={<Cart />}
+            />
+            <Route
+              path="/demo/react/antdesign/checkout"
+              element={<Checkout />}
             />
             <Route
               path="/demo/react/antdesign/grocery/faq"
