@@ -33,15 +33,35 @@ const AppSignin = ({ token, setToken }) => {
     });
   };
 
-  const fbLogin = () => {
+  const fbLogin = async () => {
     const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log('🚀 ~ file: signIn.js ~ line 40 ~ .then ~ result', result);
-      })
-      .catch((error) => {
-        console.log('🚀 ~ file: signIn.js ~ line 43 ~ fbLogin ~ error', error);
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+
+      const { accessToken, displayName, email } = result?.user || {};
+      if (!accessToken) return alert('Data không hợp lệ');
+
+      const [firstname, lastname] = displayName.split(' ');
+      const loginForm = {
+        firstname,
+        lastname,
+        username: email,
+        firebaseToken: accessToken,
+      };
+      const { data: res } = await axios({
+        url: 'http://localhost:8765/auth/login',
+        method: 'POST',
+        data: loginForm,
       });
+
+      sessionStorage.setItem('userToken', res.token);
+      sessionStorage.setItem('userName', email);
+      sessionStorage.setItem('userId', res.userInfo.id);
+      n('/demo/react/antdesign/grocery/');
+    } catch (e) {
+      alert(e.message);
+    }
   };
   return (
     <div style={{ marginTop: '50px' }}>
