@@ -6,7 +6,7 @@ import bgImage3 from '../../assets/images/autumn-sale.jpg';
 
 function Information() {
   return (
-    <div className="block informationBlock">
+    <div className="block informationBlock shopPage">
       <div className="title">
         <h2>Upcoming sales campaign</h2>
       </div>

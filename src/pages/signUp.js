@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -61,8 +61,11 @@ const AppSignup = () => {
         sessionStorage.setItem('userToken', res.data.token);
         sessionStorage.setItem('userName', e.username);
         n('/demo/react/antdesign/grocery/signin');
+        message.success("Created new account successfully")
       } else {
       }
+    }).catch(() => {
+      message.error("Username had already taken")
     });
   };
 

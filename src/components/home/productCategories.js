@@ -45,8 +45,10 @@ const productCategories = [
 
 function ProductCategories() {
   return (
-    <div className="block productCategories">
-      <h2>Product Categories</h2>
+    <div className="block productCategories shopPage">
+      <div className="title">
+        <h2>Product Categories</h2>
+      </div>
       <Row gutter={[24, 24]}>
         {productCategories.map((productCategory) => {
           return (

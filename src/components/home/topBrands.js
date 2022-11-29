@@ -21,8 +21,10 @@ const products = [
 
 function TopBrands() {
   return (
-    <div className="block products">
-      <h2>Top Brands</h2>
+    <div className="block products shopPage">
+      <div className="title">
+        <h2>Top Brands</h2>
+      </div>
       <Row gutter={[24, 24]}>
         {products.map((product) => {
           return (

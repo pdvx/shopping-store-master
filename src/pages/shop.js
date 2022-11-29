@@ -28,7 +28,7 @@ const menuSort = [
   },
   {
     key: '5',
-    label: 'Rating: Hight to Low',
+    label: 'Rating: High to Low',
     field: 'rating',
     direction: 'desc',
   },

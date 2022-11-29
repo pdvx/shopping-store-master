@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 
@@ -27,10 +27,13 @@ const AppSignin = ({ token, setToken }) => {
         sessionStorage.setItem('userName', e.username);
         sessionStorage.setItem('userId', res.data.id);
         n('/demo/react/antdesign/grocery/');
+        message.success("Logged in successfully")
       } else {
-        setError('Login k thanh cong');
+        setError('Login failed');
       }
-    });
+    }).catch(() => {
+      message.error("Please check your username/password")
+    })
   };
 
   const fbLogin = async () => {
@@ -66,7 +69,7 @@ const AppSignin = ({ token, setToken }) => {
   return (
     <div style={{ marginTop: '50px' }}>
       <div className="flex justify-center items-center mb-8">
-        <button
+        {/* <button
           onClick={fbLogin}
           className="shadow-lg rounded px-3 py-2 text-white bg-blue-800 hover:bg-blue-900 flex justify-center items-center transition-all"
         >
@@ -76,7 +79,7 @@ const AppSignin = ({ token, setToken }) => {
             className="h-6 border-2 border-white rounded-full mr-4"
           />
           Login by Facebook
-        </button>
+        </button> */}
       </div>
       <Form
         style={{ width: '70%', margin: '0 auto' }}

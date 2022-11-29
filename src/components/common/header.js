@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Button, Drawer, Dropdown, Menu, Space } from 'antd';
+import { Button, Drawer, Dropdown, Menu, Space, message } from 'antd';
 import React, { useState } from 'react';
 import {
   MobileOutlined,
@@ -29,7 +29,7 @@ function AppHeader() {
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/demo/react/antdesign/grocery/signin');
-    console.log('You are logged out');
+    message.success('Logged out successfully');
   };
 
   return (
@@ -89,7 +89,7 @@ function AppHeader() {
                 <Menu
                   items={[
                     {
-                      label: <a href="https://www.aliyun.com">{user}</a>,
+                      label: <NavLink to={`/demo/react/antdesign/grocery/cart`}>{user}</NavLink>,
                       key: '1',
                     },
                     {
