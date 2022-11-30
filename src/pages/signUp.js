@@ -64,8 +64,9 @@ const AppSignup = () => {
         message.success("Created new account successfully")
       } else {
       }
-    }).catch(() => {
-      message.error("Username had already taken")
+    })
+    .catch(() => {
+      message.error("Something went wrong. Please try again in a few seconds")
     });
   };
 

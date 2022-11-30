@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined, FacebookOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -82,14 +82,14 @@ const AppSignin = ({ token, setToken }) => {
         </button> */}
       </div>
       <Form
-        style={{ width: '70%', margin: '0 auto' }}
+        style={{ margin: '0 auto' }}
         name="normal_login"
         className="login-form"
         labelCol={{
           span: 24,
         }}
         wrapperCol={{
-          span: 16,
+          span: 24,
         }}
         onFinish={loginHandle}
       >
@@ -130,16 +130,12 @@ const AppSignin = ({ token, setToken }) => {
           />
         </Form.Item>
 
-        {/* <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
+        <Form.Item
+          style={{ justifyContent: 'center', display: 'flex', margin: '0 auto' }}
+          onClick={fbLogin}
         >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item> */}
+          <FacebookOutlined/>
+        </Form.Item>
 
         <Form.Item style={{ justifyContent: 'center', display: 'flex' }}>
           <Button
@@ -149,7 +145,7 @@ const AppSignin = ({ token, setToken }) => {
           >
             Login
           </Button>
-          Or
+          Not a member ?
           <NavLink
             to={`/demo/react/antdesign/grocery/signup`}
             style={{ marginLeft: '5px' }}
