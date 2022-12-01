@@ -165,7 +165,7 @@ const Cart = () => {
                           style={{
                             display: 'flex',
                             padding: '20px 0',
-                            paddingTop: indexProduct === 0 ? '0px' : '20px',
+                            paddingTop: indexProduct === 0 ? '10px' : '20px',
                             width: '100%',
                             borderBottom:
                               indexProduct === cart.products.length - 1
