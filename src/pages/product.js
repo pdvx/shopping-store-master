@@ -1,4 +1,4 @@
-import { Col, Skeleton, Row, Button, Rate, InputNumber } from 'antd';
+import { Col, Skeleton, Row, Button, Rate, InputNumber, message } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -80,9 +80,9 @@ const Product = () => {
     };
     const response = await postData(`${urlApi}/carts`, data);
     if (response.status === 'success') {
-      alert('Success');
+      message.success("Added to cart successfully")
     } else {
-      alert('Error');
+      message.error("Added to cart failed. Please try again !!")
     }
   };
 

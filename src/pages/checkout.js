@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Input from '../components/common/input';
-import { Button, Col, InputNumber } from 'antd';
+import { Button, Col, InputNumber, Form, Row } from 'antd';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -19,11 +19,11 @@ const Checkout = () => {
 
     const fetchCart = async () => {
       const url = `${urlApi}/carts/${cartId}`;
-      const { data: resp } = await axios(url);
-      if (!resp?._id) return alert('Thông tin không hợp lệ');
-      setCart(resp);
-      setForm(resp?.shippingInformation);
-      console.log('-> resp?.shippingInformation', resp?.shippingInformation);
+      const { data: res } = await axios(url);
+      if (!res?._id) return alert('Thông tin không hợp lệ');
+      setCart(res);
+      setForm(res?.shippingInformation);
+      console.log('-> resp?.shippingInformation', res?.shippingInformation);
     };
 
     fetchCart();
@@ -67,91 +67,117 @@ const Checkout = () => {
   return (
     <div className="container mx-auto">
       <div className="flex -mx-1 py-8">
-        <form className="p-1 w-2/3">
-          <div className="p-4 bg-white border rounded">
-            <div className="mb-2">Shipping information</div>
-            <Input
-              id={'name'}
-              label={'Name'}
-              onChange={onChange}
-              value={form?.name || ''}
-              disabled={checkoutSuccess}
-            />
-            <Input
-              id={'phone'}
-              label={'Phone number'}
-              onChange={onChange}
-              value={form?.phone || ''}
-              disabled={checkoutSuccess}
-            />
-            <Input
-              id={'address'}
-              label={'Address'}
-              onChange={onChange}
-              value={form?.address || ''}
-              disabled={checkoutSuccess}
-            />
-            <Input
-              id={'note'}
-              label={'Note'}
-              disabled={checkoutSuccess}
-              onChange={onChange}
-              value={form?.note || ''}
-            />
-            {!checkoutSuccess && (
-              <div className="flex justify-center w-full mt-4">
-                <Button onClick={onSubmit} type="submit" type="primary">
-                  Order
-                </Button>
-              </div>
-            )}
-          </div>
-        </form>
-        <div className="p-1 w-1/3">
-          <div className="p-4 bg-white border rounded">
-            {(cart?.products || []).map((product, indexProduct) => {
-              return (
-                <Col xs={24}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      padding: '20px 0',
-                      paddingTop: indexProduct === 0 ? '0px' : '20px',
-                      width: '100%',
-                      borderBottom:
-                        indexProduct === cart.products.length - 1
-                          ? 'none'
-                          : '1px solid #ccc',
-                    }}
+        <Row gutter={[24, 24]} className="shipping">
+          <Col xs={{ span: 24 }}
+                  sm={{ span: 12 }}
+                  lg={{ span: 8 }}
                   >
-                    <img
-                      src={product?.product?.image}
-                      alt={product?.product?.title}
-                      height="100px"
-                      width="100px"
-                    />
-                    <div style={{ margin: '20px' }}>
-                      <h3 className="">{product?.title}</h3>
-                      <p>
-                        {'Quantity: '}
-                        <InputNumber
-                          value={product?.quantity}
-                          min={0}
-                          max={99}
-                          disabled
-                        />
-                      </p>
-                      <h3 className="productCost">
-                        Price: {product?.product?.price || 0 * product.quantity}{' '}
-                        $
-                      </h3>
-                    </div>
+            <Form className="p-1 w-2/3">
+              <div className="p-4 bg-white border rounded">
+                <div className="mb-2">Shipping information</div>
+                <Form.Item>
+                  <Input
+                    onChange={onChange}
+                    name="username"
+                    id={'name'}
+                    label={'Name'}
+                    value={form?.name || ''}
+                    disabled={checkoutSuccess}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Input
+                    id={'phone'}
+                    label={'Phone number'}
+                    onChange={onChange}
+                    value={form?.phone || ''}
+                    disabled={checkoutSuccess}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Input
+                    id={'address'}
+                    label={'Address'}
+                    onChange={onChange}
+                    value={form?.address || ''}
+                    disabled={checkoutSuccess}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Input
+                    id={'note'}
+                    label={'Note'}
+                    disabled={checkoutSuccess}
+                    onChange={onChange}
+                    value={form?.note || ''}
+                  />
+                </Form.Item>
+
+                {!checkoutSuccess && (
+                  <div className="flex justify-center w-full mt-4">
+                    <Button onClick={onSubmit} type="submit primary">
+                      Order
+                    </Button>
                   </div>
-                </Col>
-              );
-            })}
+                )}
+              </div>
+            </Form>
+          </Col>
+                
+                <Col xs={{ span: 24 }}
+                  sm={{ span: 12 }}
+                  lg={{ span: 6 }}
+                  >
+                    </Col>
+                
+          <div>
+          <Col xs={24} lg={ 24}>
+            <div className=" bg-white border rounded">
+              {(cart?.products || []).map((product, indexProduct) => {
+                return (
+                  
+                    <div
+                      style={{
+                        display: 'flex',
+                        padding: '20px 0',
+                        paddingTop: indexProduct === 0 ? '0px' : '20px',
+                        width: '100%',
+                        borderBottom:
+                          indexProduct === cart.products.length - 1
+                            ? 'none'
+                            : '1px solid #ccc',
+                      }}
+                    >
+                      <img
+                        src={product?.product?.image}
+                        alt={product?.product?.title}
+                        height="100px"
+                        width="100px"
+                      />
+                      <div style={{ margin: '20px' }}>
+                        <h3 className="">{product?.title}</h3>
+                        <p>
+                          {'Quantity: '}
+                          <InputNumber
+                            value={product?.quantity}
+                            min={0}
+                            max={99}
+                            disabled
+                          />
+                        </p>
+                        <h3 className="productCost">
+                          Price:{' '}
+                          {product?.product?.price || 0 * product.quantity} $
+                        </h3>
+                      </div>
+                    </div>
+                  
+                );
+              })}
+            </div>
+            </Col>
           </div>
-        </div>
+        </Row>
       </div>
     </div>
   );
