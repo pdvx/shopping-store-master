@@ -11,7 +11,6 @@ import { auth } from '../firebase';
 const AppSignin = ({ token, setToken }) => {
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const n = useNavigate();
   const loginHandle = (e) => {
     axios({
@@ -29,7 +28,7 @@ const AppSignin = ({ token, setToken }) => {
         n('/demo/react/antdesign/grocery/');
         message.success("Logged in successfully")
       } else {
-        setError('Login failed');
+        message.error('Login failed');
       }
     }).catch(() => {
       message.error("Please check your username/password")
@@ -63,23 +62,12 @@ const AppSignin = ({ token, setToken }) => {
       sessionStorage.setItem('userId', res.userInfo.id);
       n('/demo/react/antdesign/grocery/');
     } catch (e) {
-      alert(e.message);
+      message.error(e.message);
     }
   };
   return (
     <div style={{ marginTop: '50px' }}>
       <div className="flex justify-center items-center mb-8">
-        {/* <button
-          onClick={fbLogin}
-          className="shadow-lg rounded px-3 py-2 text-white bg-blue-800 hover:bg-blue-900 flex justify-center items-center transition-all"
-        >
-          <img
-            src="facebook.png"
-            alt="FB"
-            className="h-6 border-2 border-white rounded-full mr-4"
-          />
-          Login by Facebook
-        </button> */}
       </div>
       <Form
         style={{ margin: '0 auto' }}

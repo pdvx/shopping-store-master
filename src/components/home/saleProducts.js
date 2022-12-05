@@ -5,20 +5,9 @@ import { NavLink } from 'react-router-dom';
 function SaleProducts() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
-  // const [loading, setLoading] = useState(false);
-  // let componentMounted = true;
-
+  
   useEffect(() => {
     const getProducts = async () => {
-      // setLoading(true);
-      // const response = await fetch(
-      //   "https://fakestoreapi.com/products/category/women's clothing?limit=3"
-      // );
-      // if (componentMounted) {
-      //   setData(await response.clone().json());
-      //   setFilter(await response.json());
-      //   setLoading(false);
-      // }
       await fetch(
         "http://localhost:8765/products/category/women's clothing?limit=3"
       )
@@ -28,10 +17,6 @@ function SaleProducts() {
           setData(response);
           setFilter(response);
         });
-
-      // return () => {
-      //   componentMounted = false;
-      // };
     };
     getProducts();
   }, []);

@@ -3,30 +3,18 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 function RecentProducts() {
-  const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [loading, setLoading] = useState(false);
-  // let componentMounted = true;
 
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      // let response;
       await fetch('http://localhost:8765/products?column=id&sort=ascend&limit=4')
         .then((response) => response.json())
         .then((response) => {
           setLoading(false);
-          setData(response.products);
           setFilter(response.products);
         });
-      // if (componentMounted) {
-      //   setData(await response.clone().json());
-      //   setFilter(await response.json());
-      //   setLoading(false);
-      // }
-      // return () => {
-      //   componentMounted = false;
-      // };
     };
     getProducts();
   }, []);
