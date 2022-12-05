@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Input from '../components/common/input';
-import { Button, Col, InputNumber, Form, Row } from 'antd';
+import { Button, Col, InputNumber, Form, Row, message } from 'antd';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -35,7 +35,7 @@ const Checkout = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!form.phone || !form.address)
-      return alert('Please enter phone and address');
+      return message.warn('Please enter phone and address');
 
     return submitCart();
   };
@@ -60,7 +60,7 @@ const Checkout = () => {
       body: JSON.stringify(requestUpdateCart),
     });
 
-    alert('Success');
+    message.success('Success');
     window.location.reload();
   };
 
