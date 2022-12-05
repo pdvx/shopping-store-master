@@ -12,7 +12,7 @@ function RecentProducts() {
     const getProducts = async () => {
       setLoading(true);
       // let response;
-      await fetch('http://localhost:8765/products?limit=4')
+      await fetch('http://localhost:8765/products?column=id&sort=ascend&limit=4')
         .then((response) => response.json())
         .then((response) => {
           setLoading(false);

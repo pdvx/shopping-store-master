@@ -44,7 +44,7 @@ function AppShop() {
 
   const getProducts = async () => {
     setLoading(true);
-    await fetch('http://localhost:8765/products')
+    await fetch('http://localhost:8765/products?column=id&sort=ascend')
       .then((response) => response.json())
       .then((response) => {
         setLoading(false);

@@ -74,7 +74,7 @@ const Checkout = () => {
                   >
             <Form className="p-1 w-2/3">
               <div className="p-4 bg-white border rounded">
-                <div className="mb-2">Shipping information</div>
+                <h2 className="mb-2">Shipping information</h2>
                 <Form.Item>
                   <Input
                     onChange={onChange}
