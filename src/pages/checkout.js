@@ -15,12 +15,12 @@ const Checkout = () => {
   const checkoutSuccess = query.get('success') + '' === '1';
 
   useEffect(() => {
-    if (!cartId) return alert('Thông tin không hợp lệ');
+    if (!cartId) return message.warn('Please check your information');
 
     const fetchCart = async () => {
       const url = `${urlApi}/carts/${cartId}`;
       const { data: res } = await axios(url);
-      if (!res?._id) return alert('Thông tin không hợp lệ');
+      if (!res?._id) return message.warn('Please check your information');
       setCart(res);
       setForm(res?.shippingInformation);
       console.log('-> resp?.shippingInformation', res?.shippingInformation);
